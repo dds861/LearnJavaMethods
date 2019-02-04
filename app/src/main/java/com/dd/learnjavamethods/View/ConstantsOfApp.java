@@ -39,8 +39,10 @@ public class ConstantsOfApp {
 
     public static final String INT_PARAM = "int";
     public static final String DOUBLE_PARAM = "Double";
+    public static final String DOUBLE_LOWERCASE_PARAM = "double";
     public static final String DOUBLE_ARRAY_PARAM = "double[]";
     public static final String FLOAT_PARAM = "Float";
+    public static final String FLOAT_LOWERCASE_PARAM = "float";
     public static final String FLOAT_ARRAY_PARAM = "float[]";
     public static final String INT_ARRAY_PARAM = "int[]";
     public static final String INTEGER_PARAM = "Integer";
@@ -51,6 +53,7 @@ public class ConstantsOfApp {
     public static final String SHORT_PARAM = "Short";
     public static final String SHORT_ARRAY_PARAM = "short[]";
     public static final String STRING_PARAM = "String";
+    public static final String STRING_ARRAY_PARAM = "String[]";
     public static final String STRINGBUFFER_PARAM = "StringBuffer";
     public static final String BOOLEAN_PARAM = "boolean";
     public static final String BOOLEAN_ARRAY_PARAM = "boolean[]";
@@ -71,9 +74,12 @@ public class ConstantsOfApp {
     public static final String TIMEZONE_PARAM = "TimeZone";
     public static final String LOCALE_PARAM = "Locale";
     public static final String DATE_PARAM = "Date";
-    public static final String COMPARATOR_SUPER_T_PARAM = "Comparator<? super T>";
-    public static final String COLLECTION_EXTENDS_E_PARAM = "Collection<? extends E>";
+//    public static final String COMPARATOR_SUPER_T_PARAM = "Comparator<? super T>";
+    public static final String COMPARATOR_SUPER_T_PARAM = "Comparator<?";
+//    public static final String COLLECTION_EXTENDS_E_PARAM = "Collection<? extends E>";
+    public static final String COLLECTION_EXTENDS_E_PARAM = "Collection<?";
     public static final String COLLECTION_PARAM = "Collection<?>";
+    public static final String VOID_PARAM = "void";
 
 }
 

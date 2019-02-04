@@ -1,8 +1,13 @@
 package com.dd.learnjavamethods.View.DetailedActivity.Presenter;
 
 
+import android.util.Log;
+
 import com.dd.learnjavamethods.View.ConstantsOfApp;
 import com.dd.learnjavamethods.View.DetailedActivity.View.IView;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -13,90 +18,6 @@ public class Presenter implements IPresenter {
 
     public Presenter(IView iView) {
         this.iView = iView;
-    }
-
-    private String getParamTexts(String s) {
-        switch (s) {
-            case ConstantsOfApp.INT_PARAM:
-                return "1;";
-            case ConstantsOfApp.DOUBLE_PARAM:
-                return "1.0;";
-            case ConstantsOfApp.DOUBLE_ARRAY_PARAM:
-                return "{1.0, 2.0, 3.0};";
-            case ConstantsOfApp.FLOAT_PARAM:
-                return "1.0f;";
-            case ConstantsOfApp.FLOAT_ARRAY_PARAM:
-                return "{1f, 2.0f, 3.0f};";
-            case ConstantsOfApp.INT_ARRAY_PARAM:
-                return "{1, 2, 3};";
-            case ConstantsOfApp.INTEGER_PARAM:
-                return "1;";
-            case ConstantsOfApp.LONG_PARAM:
-                return "1L;";
-            case ConstantsOfApp.LONG_ARRAY_PARAM:
-                return "{1L, 2L, 3L};";
-            case ConstantsOfApp.OBJECT_PARAM:
-                return "\"a\";";
-            case ConstantsOfApp.OBJECT_ARRAY_PARAM:
-                return "{\"any\", \"text\"};";
-            case ConstantsOfApp.SHORT_PARAM:
-                return "1;";
-            case ConstantsOfApp.SHORT_ARRAY_PARAM:
-                return "{1, 2, 3};";
-            case ConstantsOfApp.STRING_PARAM:
-                return "\"any\";";
-            case ConstantsOfApp.STRINGBUFFER_PARAM:
-                return "new StringBuffer(\"anytext\");";
-            case ConstantsOfApp.BOOLEAN_PARAM:
-                return "true;";
-            case ConstantsOfApp.BOOLEAN_ARRAY_PARAM:
-                return "{true,false};";
-            case ConstantsOfApp.BYTE_PARAM:
-                return "1;";
-            case ConstantsOfApp.BYTE_ARRAY_PARAM:
-                return "{1, 2, 3};";
-            case ConstantsOfApp.CALENDAR_PARAM:
-                return "Calendar.getInstance();";
-            case ConstantsOfApp.CHAR_PARAM:
-                return "'a';";
-            case ConstantsOfApp.CHAR_ARRAY_PARAM:
-                return "{'a', 'n', 'y'};";
-            case ConstantsOfApp.CHARACTER_PARAM:
-                return "'a';";
-            case ConstantsOfApp.CHARSEQUENCE_PARAM:
-                return "\"abc\";";
-            case ConstantsOfApp.CHARSET_PARAM:
-                return "Charset.forName(\"UTF-8\");";
-
-            case ConstantsOfApp.U_ARRAY_PARAM:
-                return "{'a', 'n', 'y'};";
-            case ConstantsOfApp.T_ARRAY_PARAM:
-                return "{'a', 'n', 'y'};";
-            case ConstantsOfApp.T_DOTS_PARAM:
-                return "{'a', 'n', 'y'};";
-            case ConstantsOfApp.OBJECT_DOTS_PARAM:
-                return "{\"a\", \"n\", \"y\"};";
-            case ConstantsOfApp.T_PARAM:
-                return "new String();";
-            case ConstantsOfApp.E_PARAM:
-                return "new String();";
-            case ConstantsOfApp.TIMEZONE_PARAM:
-                return "TimeZone.getDefault();";
-            case ConstantsOfApp.LOCALE_PARAM:
-                return "new Locale(\"fr\");";
-            case ConstantsOfApp.DATE_PARAM:
-                return "new Date();";
-            case ConstantsOfApp.COMPARATOR_SUPER_T_PARAM:
-                return "null;";
-            case ConstantsOfApp.COLLECTION_EXTENDS_E_PARAM:
-                return "[\"a\", \"n\", \"y\"];";
-            case ConstantsOfApp.COLLECTION_PARAM:
-                return "[\"a\", \"n\", \"y\"];";
-
-            default:
-                return "";
-        }
-
     }
 
     private String editQuoteClicked(String s) {
@@ -110,19 +31,294 @@ public class Presenter implements IPresenter {
         return s;
     }
 
+    private String[] getParametersFromStringToArray(String s) {
+        String[] strings = new String[2];
+        switch (s) {
+            case ConstantsOfApp.INT_PARAM:
+                strings[0] = "int";
+                strings[1] = "1;";
+                break;
+            case ConstantsOfApp.DOUBLE_PARAM:
+                strings[0] = ConstantsOfApp.DOUBLE_PARAM;
+                strings[1] = "1.0;";
+                break;
+            case ConstantsOfApp.DOUBLE_LOWERCASE_PARAM:
+                strings[0] = ConstantsOfApp.DOUBLE_LOWERCASE_PARAM;
+                strings[1] = "1.0;";
+                break;
+            case ConstantsOfApp.DOUBLE_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.DOUBLE_ARRAY_PARAM;
+                strings[1] = "{1.0, 2.0, 3.0};";
+                break;
+            case ConstantsOfApp.FLOAT_PARAM:
+                strings[0] = ConstantsOfApp.FLOAT_PARAM;
+                strings[1] = "1.0f;";
+                break;
+            case ConstantsOfApp.FLOAT_LOWERCASE_PARAM:
+                strings[0] = ConstantsOfApp.FLOAT_LOWERCASE_PARAM;
+                strings[1] = "1.0f;";
+                break;
+            case ConstantsOfApp.FLOAT_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.FLOAT_ARRAY_PARAM;
+                strings[1] = "{1f, 2.0f, 3.0f};";
+                break;
+            case ConstantsOfApp.INT_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.INT_ARRAY_PARAM;
+                strings[1] = "{1, 2, 3};";
+                break;
+            case ConstantsOfApp.INTEGER_PARAM:
+                strings[0] = ConstantsOfApp.INTEGER_PARAM;
+                strings[1] = "1;";
+                break;
+            case ConstantsOfApp.LONG_PARAM:
+                strings[0] = ConstantsOfApp.LONG_PARAM;
+                strings[1] = "1L;";
+                break;
+            case ConstantsOfApp.LONG_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.LONG_ARRAY_PARAM;
+                strings[1] = "{1L, 2L, 3L};";
+                break;
+            case ConstantsOfApp.OBJECT_PARAM:
+                strings[0] = ConstantsOfApp.OBJECT_PARAM;
+                strings[1] = "\"a\";";
+                break;
+            case ConstantsOfApp.OBJECT_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.OBJECT_ARRAY_PARAM;
+                strings[1] = "{\"any\", \"text\"};";
+                break;
+            case ConstantsOfApp.SHORT_PARAM:
+                strings[0] = ConstantsOfApp.SHORT_PARAM;
+                strings[1] = "1;";
+                break;
+            case ConstantsOfApp.SHORT_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.SHORT_ARRAY_PARAM;
+                strings[1] = "{1, 2, 3};";
+                break;
+            case ConstantsOfApp.STRING_PARAM:
+                strings[0] = ConstantsOfApp.STRING_PARAM;
+                strings[1] = "\"any\";";
+                break;
+            case ConstantsOfApp.STRINGBUFFER_PARAM:
+                strings[0] = ConstantsOfApp.STRINGBUFFER_PARAM;
+                strings[1] = "new StringBuffer(\"anytext\");";
+                break;
+            case ConstantsOfApp.BOOLEAN_PARAM:
+                strings[0] = ConstantsOfApp.BOOLEAN_PARAM;
+                strings[1] = "true;";
+                break;
+            case ConstantsOfApp.BOOLEAN_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.BOOLEAN_ARRAY_PARAM;
+                strings[1] = "{true,false};";
+                break;
+            case ConstantsOfApp.BYTE_PARAM:
+                strings[0] = ConstantsOfApp.BYTE_PARAM;
+                strings[1] = "1;";
+                break;
+            case ConstantsOfApp.BYTE_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.BYTE_ARRAY_PARAM;
+                strings[1] = "{1, 2, 3};";
+                break;
+            case ConstantsOfApp.CALENDAR_PARAM:
+                strings[0] = ConstantsOfApp.CALENDAR_PARAM;
+                strings[1] = "Calendar.getInstance();";
+                break;
+            case ConstantsOfApp.CHAR_PARAM:
+                strings[0] = ConstantsOfApp.CHAR_PARAM;
+                strings[1] = "'a';";
+                break;
+            case ConstantsOfApp.CHAR_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.CHAR_ARRAY_PARAM;
+                strings[1] = "{'a', 'n', 'y'};";
+                break;
+            case ConstantsOfApp.CHARACTER_PARAM:
+                strings[0] = ConstantsOfApp.CHARACTER_PARAM;
+                strings[1] = "'a';";
+                break;
+            case ConstantsOfApp.CHARSEQUENCE_PARAM:
+                strings[0] = ConstantsOfApp.CHARSEQUENCE_PARAM;
+                strings[1] = "\"abc\";";
+                break;
+            case ConstantsOfApp.CHARSET_PARAM:
+                strings[0] = ConstantsOfApp.STRING_PARAM;
+                strings[1] = "\"UTF-8\";";
+                break;
+            case ConstantsOfApp.U_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.STRING_ARRAY_PARAM;
+                strings[1] = "{\"a\", \"n\", \"y\"};";
+                break;
+            case ConstantsOfApp.T_ARRAY_PARAM:
+                strings[0] = ConstantsOfApp.STRING_ARRAY_PARAM;
+                strings[1] = "{\"a\", \"n\", \"y\"};";
+                break;
+            case ConstantsOfApp.T_DOTS_PARAM:
+                strings[0] = ConstantsOfApp.STRING_ARRAY_PARAM;
+                strings[1] = "{\"a\", \"n\", \"y\"};";
+                break;
+            case ConstantsOfApp.OBJECT_DOTS_PARAM:
+                strings[0] = ConstantsOfApp.STRING_ARRAY_PARAM;
+                strings[1] = "{\"a\", \"n\", \"y\"};";
+                break;
+            case ConstantsOfApp.T_PARAM:
+                strings[0] = ConstantsOfApp.STRING_PARAM;
+                strings[1] = "\"a\"";
+                break;
+            case ConstantsOfApp.E_PARAM:
+                strings[0] = ConstantsOfApp.STRING_PARAM;
+                strings[1] = "\"a\"";
+                break;
+            case ConstantsOfApp.TIMEZONE_PARAM:
+                strings[0] = ConstantsOfApp.TIMEZONE_PARAM;
+                strings[1] = "TimeZone.getDefault();";
+                break;
+            case ConstantsOfApp.LOCALE_PARAM:
+                strings[0] = ConstantsOfApp.LOCALE_PARAM;
+                strings[1] = "new Locale(\"fr\");";
+                break;
+            case ConstantsOfApp.DATE_PARAM:
+                strings[0] = ConstantsOfApp.DATE_PARAM;
+                strings[1] = "new Date();";
+                break;
+            case ConstantsOfApp.COMPARATOR_SUPER_T_PARAM:
+                strings[0] = ConstantsOfApp.OBJECT_PARAM;
+                strings[1] = "null;";
+                break;
+            case ConstantsOfApp.COLLECTION_EXTENDS_E_PARAM:
+                strings[0] = "ArrayList";
+                strings[1] = " new ArrayList(){{" +
+                        "add(\"A\");" +
+                        "add(\"B\");" +
+                        "add(\"C\");" +
+                        "}};";
+
+                ArrayList param = new ArrayList<String>();//Creating arraylist
+                param.add("Ravi");//Adding object in arraylist
+                param.add("Vijay");
+                param.add("Ravi");
+                param.add("Ajay");
+                break;
+            case ConstantsOfApp.VOID_PARAM:
+                strings[0] = "123";
+                strings[1] = "[\"a\", \"n\", \"y\"];";
+                break;
+
+
+        }
+
+        return strings;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
     @Override
-    public void setEditTextChangedListener() {
-        iView.setEditTextChangedListener();
+    public void onSetInitialTextToEnterValue() {
+
+        String getIntentObject = iView.getTextGetIntentObject();
+        String s = "";
+        switch (getIntentObject) {
+            case ConstantsOfApp.STRING_OBJECT:
+                s = "\"anytext\"";
+                break;
+            case ConstantsOfApp.INTEGER_OBJECT:
+                s = "123";
+                break;
+            case ConstantsOfApp.ARRAYS_OBJECT://-?
+                s = "\"anytext\"";
+                break;
+            case ConstantsOfApp.STRINGBUILDER_OBJECT://-?
+                s = "\"anytext\"";
+                break;
+            case ConstantsOfApp.CALENDAR_OBJECT://-?
+                s = "\"anytext\"";
+                break;
+            case ConstantsOfApp.SHORT_OBJECT:
+                s = "123";
+                break;
+            case ConstantsOfApp.BYTE_OBJECT:
+                s = "a";
+                break;
+            case ConstantsOfApp.BOOLEAN_OBJECT:
+                s = "true";
+                break;
+            case ConstantsOfApp.LONG_OBJECT:
+                s = "123";
+                break;
+            case ConstantsOfApp.DOUBLE_OBJECT:
+                s = "123.0";
+                break;
+            case ConstantsOfApp.FLOAT_OBJECT:
+                s = "123.0f";
+                break;
+            case ConstantsOfApp.CHARACTER_OBJECT:
+                s = "\'a\'";
+                break;
+            case ConstantsOfApp.ARRAYLIST_OBJECT://-?
+                s = "new ArrayList()";
+
+
+                break;
+
+        }
+        iView.setTextEtEnterValue(s);
+
     }
 
     @Override
-    public void setDataToViewsReceivedFromPreviousActivity() {
-        iView.setDataToViewsReceivedFromPreviousActivity();
-    }
+    public void setInitialTextToParams() {
+        String[] splitParamsArrayOnlyType = iView.getSplitParamsArrayOnlyType();
 
-    @Override
-    public void setDataFromPreviousActivity() {
-        iView.setDataFromPreviousActivity();
+        String paramValue;
+        String[] strings;
+        switch (splitParamsArrayOnlyType.length) {
+            case 8:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[7]);
+                paramValue = strings[0] + " param8 = " + strings[1];
+                iView.setTextEtParam8(paramValue);
+
+            case 7:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[6]);
+                paramValue = strings[0] + " param7 = " + strings[1];
+                iView.setTextEtParam7(paramValue);
+
+            case 6:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[5]);
+                paramValue = strings[0] + " param6 = " + strings[1];
+                iView.setTextEtParam6(paramValue);
+
+            case 5:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[4]);
+                paramValue = strings[0] + " param5 = " + strings[1];
+                iView.setTextEtParam5(paramValue);
+
+            case 4:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[3]);
+                paramValue = strings[0] + " param4 = " + strings[1];
+                iView.setTextEtParam4(paramValue);
+
+            case 3:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[2]);
+                paramValue = strings[0] + " param3 = " + strings[1];
+                iView.setTextEtParam3(paramValue);
+
+            case 2:
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[1]);
+                paramValue = strings[0] + " param2 = " + strings[1];
+                iView.setTextEtParam2(paramValue);
+
+            case 1:
+                if (splitParamsArrayOnlyType[0].equals("")) {
+                    break;
+                }
+                strings = getParametersFromStringToArray(splitParamsArrayOnlyType[0]);
+                paramValue = strings[0] + " param1 = " + strings[1];
+                iView.setTextEtParam1(paramValue);
+
+            default:
+                break;
+
+        }
     }
 
     @Override
@@ -139,7 +335,7 @@ public class Presenter implements IPresenter {
         String[] splitParamsArray = iView.getSplitParamsArray();
 
         int i;
-        String paramType;
+
         switch (splitParamsArray.length) {
             case 8:
                 i = splitParamsArray[7].indexOf(' ');
@@ -186,50 +382,307 @@ public class Presenter implements IPresenter {
     }
 
     @Override
-    public void setInitialTextToParams() {
-        String[] splitParamsArrayOnlyType = iView.getSplitParamsArrayOnlyType();
+    public void onFormTextFromParams() {
 
-        String paramValue;
-        switch (splitParamsArrayOnlyType.length) {
-            case 8:
-                paramValue = splitParamsArrayOnlyType[7] + " param8 = " + getParamTexts(splitParamsArrayOnlyType[7]);
-                iView.setTextEtParam8(paramValue);
+        String mEtParam1 = iView.getTextEtParam1();
+        String mEtParam2 = iView.getTextEtParam2();
+        String mEtParam3 = iView.getTextEtParam3();
+        String mEtParam4 = iView.getTextEtParam4();
+        String mEtParam5 = iView.getTextEtParam5();
+        String mEtParam6 = iView.getTextEtParam6();
+        String mEtParam7 = iView.getTextEtParam7();
+        String mEtParam8 = iView.getTextEtParam8();
 
-            case 7:
-                paramValue = splitParamsArrayOnlyType[6] + " param7 = " + getParamTexts(splitParamsArrayOnlyType[6]);
-                iView.setTextEtParam7(paramValue);
+        StringBuilder stringBuilder = new StringBuilder();
 
-            case 6:
-                paramValue = splitParamsArrayOnlyType[5] + " param6 = " + getParamTexts(splitParamsArrayOnlyType[5]);
-                iView.setTextEtParam6(paramValue);
+        //if param1 is not empty, then do: get text from param1 from EditText
+        if (!mEtParam1.trim().equals("")) {
+            stringBuilder.append(mEtParam1.trim() + "\n");
+        }
+        if (!mEtParam2.trim().equals("")) {
+            stringBuilder.append(mEtParam2.trim() + "\n");
+        }
+        if (!mEtParam3.trim().equals("")) {
+            stringBuilder.append(mEtParam3.trim() + "\n");
+        }
+        if (!mEtParam4.trim().equals("")) {
+            stringBuilder.append(mEtParam4.trim() + "\n");
+        }
+        if (!mEtParam5.trim().equals("")) {
+            stringBuilder.append(mEtParam5.trim() + "\n");
+        }
+        if (!mEtParam6.trim().equals("")) {
+            stringBuilder.append(mEtParam6.trim() + "\n");
+        }
+        if (!mEtParam7.trim().equals("")) {
+            stringBuilder.append(mEtParam7.trim() + "\n");
+        }
+        if (!mEtParam8.trim().equals("")) {
+            stringBuilder.append(mEtParam8.trim() + "\n");
+        }
 
-            case 5:
-                paramValue = splitParamsArrayOnlyType[4] + " param5 = " + getParamTexts(splitParamsArrayOnlyType[4]);
-                iView.setTextEtParam5(paramValue);
 
-            case 4:
-                paramValue = splitParamsArrayOnlyType[3] + " param4 = " + getParamTexts(splitParamsArrayOnlyType[3]);
-                iView.setTextEtParam4(paramValue);
+        iView.setTextTempParamsText(stringBuilder.toString());
+    }
 
-            case 3:
-                paramValue = splitParamsArrayOnlyType[2] + " param3 = " + getParamTexts(splitParamsArrayOnlyType[2]);
-                iView.setTextEtParam3(paramValue);
+    @Override
+    public void onExecuteCodeFromTv() {
+        String code = iView.getTextCodeEt();
+        if (iView.getTextTvType().equals(ConstantsOfApp.VOID_PARAM)) {
+            code = "void";
+        } else {
+            try {
+                Interpreter i = new Interpreter();  // Construct an interpreter
 
-            case 2:
-                paramValue = splitParamsArrayOnlyType[1] + " param2 = " + getParamTexts(splitParamsArrayOnlyType[1]);
-                iView.setTextEtParam2(paramValue);
+                i.eval(code);
 
-            case 1:
-                if (splitParamsArrayOnlyType[0].equals("")) {
-                    break;
+                code = "a = " + String.valueOf(i.get("a"));
+            } catch (EvalError evalError) {
+
+                code = evalError.toString();
+            }
+        }
+
+
+        iView.setTextTvResult(code);
+    }
+
+    @Override
+    public void onFormCodeAndSetToTv() {
+        String codeToTv = "";
+
+        String getIntentObject = iView.getTextGetIntentObject();
+
+        String mEtEnterValue = iView.getTextEtEnterValue();
+        String mTvType = iView.getTextTvType();
+        String mTvMethod = iView.getTextTvMethod();
+
+        String tempParamsText = iView.getTextTempParamsText();
+        String[] tempStrings = tempParamsText.split(" =");
+        String tempParamNames = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < tempStrings.length - 1; i++) {
+            stringBuilder.append(tempStrings[i].substring(tempStrings[i].length() - 6));
+            stringBuilder.append(",");
+        }
+        if (stringBuilder.toString().length() - 1 >= 0) {
+            tempParamNames = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+        }
+
+
+        switch (getIntentObject) {
+            case ConstantsOfApp.STRING_OBJECT:
+
+                //Exception: check if String name is "charsetName", is so set it to "UTF-8"
+                String getMethodParamTypeName = "";
+                if (iView.getTextGetIntentMethod().contains(" ")) {
+                    getMethodParamTypeName = iView.getTextGetIntentMethod().substring(iView.getTextGetIntentMethod().indexOf(" "), iView.getTextGetIntentMethod().length() - 1);
+                    if (getMethodParamTypeName.equals("charsetName")) {
+                        mEtEnterValue = "UTF-8";
+                    }
                 }
-                paramValue = splitParamsArrayOnlyType[0] + " param1 = " + getParamTexts(splitParamsArrayOnlyType[0]);
-                iView.setTextEtParam1(paramValue);
 
-            default:
+                //Exception: check if return type is "void"
+                if (iView.getTextGetIntentType().equals(ConstantsOfApp.VOID_PARAM)) {
+                    codeToTv = String.format(
+                            "%s a = %s;\n\n" +
+                                    "%s \n" +
+                                    "a.%s%s);",
+                            getIntentObject, mEtEnterValue.trim(),
+                            tempParamsText,
+                            mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                    );
+
+                    String s = "anytext";
+
+                    String param1 = "UTF-8";
+
+                    try {
+                        byte[] a = s.getBytes(param1);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                //else do as usual
+                else {
+                    codeToTv = String.format(
+                            "%s s = %s;\n\n" +
+                                    "%s \n" +
+                                    "%s a = s.%s%s);",
+                            getIntentObject, mEtEnterValue.trim(),
+                            tempParamsText,
+                            mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                    );
+                }
+
+
+                break;
+            case ConstantsOfApp.INTEGER_OBJECT:
+
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+
+                );
+                Log.i("autolog", "mTvType222: " + mTvType);
+                break;
+            case ConstantsOfApp.ARRAYS_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.STRINGBUILDER_OBJECT:
+
+                codeToTv = String.format("%s s = new StringBuilder(%s);\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.CALENDAR_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.SHORT_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.BYTE_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.BOOLEAN_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.LONG_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.DOUBLE_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.FLOAT_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.CHARACTER_OBJECT:
+
+                codeToTv = String.format("%s s = %s;\n\n" +
+                                "%s \n" +
+                                "%s a = s.%s%s);",
+                        getIntentObject, mEtEnterValue.trim(),
+                        tempParamsText,
+                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+                );
+                break;
+            case ConstantsOfApp.ARRAYLIST_OBJECT:
+
+                String tempCode;
+
+                if (mTvType.equals("void")) {
+                    tempCode = String.format("import java.util.*;\n" +
+                                    "%s s = %s;\n\n" +
+                                    "%s \n" +
+                                    "s.%s%s);",
+                            getIntentObject, mEtEnterValue.trim(),
+                            tempParamsText,
+                            mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames);
+                } else {
+
+                    tempCode = String.format("import java.util.*;\n" +
+                                    "%s s = %s;\n\n" +
+                                    "%s \n" +
+                                    "%s a = s.%s%s);",
+                            getIntentObject, mEtEnterValue.trim(),
+                            tempParamsText,
+                            mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
+
+
+                    );
+                }
+
+                codeToTv = tempCode;
                 break;
 
         }
+
+        iView.setTextCodeEt(codeToTv);
+
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+    @Override
+    public void setEditTextChangedListener() {
+        iView.setEditTextChangedListener();
+    }
+
+    @Override
+    public void setDataToViewsReceivedFromPreviousActivity() {
+        iView.setDataToViewsReceivedFromPreviousActivity();
+    }
+
+    @Override
+    public void setDataFromPreviousActivity() {
+        iView.setDataFromPreviousActivity();
     }
 
     @Override
@@ -398,276 +851,8 @@ public class Presenter implements IPresenter {
     }
 
     //execute java code using BeenShell library
-    @Override
-    public void onExecuteCodeFromTv() {
-        String code = iView.getTextCodeEt();
-        try {
-            Interpreter i = new Interpreter();  // Construct an interpreter
-            i.eval(code);
-
-            code = "a = " + String.valueOf(i.get("a"));
-        } catch (EvalError evalError) {
-            evalError.printStackTrace();
-            code = "null";
-        }
-
-        iView.setTextTvResult(code);
-    }
-
-    @Override
-    public void onSetInitialTextToEnterValue() {
-
-        String getIntentObject = iView.getTextGetIntentObject();
-        String s = "";
-        switch (getIntentObject) {
-            case ConstantsOfApp.STRING_OBJECT:
-                s = "\"anytext\"";
-                break;
-            case ConstantsOfApp.INTEGER_OBJECT:
-                s = "123";
-                break;
-            case ConstantsOfApp.ARRAYS_OBJECT://-?
-                s = "\"anytext\"";
-                break;
-            case ConstantsOfApp.STRINGBUILDER_OBJECT://-?
-                s = "\"anytext\"";
-                break;
-            case ConstantsOfApp.CALENDAR_OBJECT://-?
-                s = "\"anytext\"";
-                break;
-            case ConstantsOfApp.SHORT_OBJECT:
-                s = "123";
-                break;
-            case ConstantsOfApp.BYTE_OBJECT:
-                s = "a";
-                break;
-            case ConstantsOfApp.BOOLEAN_OBJECT:
-                s = "true";
-                break;
-            case ConstantsOfApp.LONG_OBJECT:
-                s = "123";
-                break;
-            case ConstantsOfApp.DOUBLE_OBJECT:
-                s = "123.0";
-                break;
-            case ConstantsOfApp.FLOAT_OBJECT:
-                s = "123.0f";
-                break;
-            case ConstantsOfApp.CHARACTER_OBJECT:
-                s = "\'a\'";
-                break;
-            case ConstantsOfApp.ARRAYLIST_OBJECT://-?
-                s = "\"anytext\"";
-                break;
-
-        }
-        iView.setTextEtEnterValue(s);
-
-    }
-
-    @Override
-    public void onFormCodeAndSetToTv() {
-        String codeToTv = "";
-
-        String getIntentObject = iView.getTextGetIntentObject();
-        String mEtEnterValue = iView.getTextEtEnterValue();
-        String mTvType = iView.getTextTvType();
-        String mTvMethod = iView.getTextTvMethod();
-
-        String tempParamsText = iView.getTextTempParamsText();
-        String[] tempStrings = tempParamsText.split(" =");
-        String tempParamNames = "";
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < tempStrings.length - 1; i++) {
-            stringBuilder.append(tempStrings[i].substring(tempStrings[i].length() - 6));
-            stringBuilder.append(",");
-        }
-        if (stringBuilder.toString().length() - 1 >= 0) {
-            tempParamNames = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
-        }
 
 
-        switch (getIntentObject) {
-            case ConstantsOfApp.STRING_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.INTEGER_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.ARRAYS_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.STRINGBUILDER_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.CALENDAR_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.SHORT_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.BYTE_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.BOOLEAN_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.LONG_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.DOUBLE_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.FLOAT_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.CHARACTER_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-            case ConstantsOfApp.ARRAYLIST_OBJECT:
-
-                codeToTv = String.format("%s s = %s;\n\n" +
-                                "%s \n" +
-                                "%s a = s.%s%s);",
-                        getIntentObject, mEtEnterValue.trim(),
-                        tempParamsText,
-                        mTvType, mTvMethod.substring(0, mTvMethod.indexOf("(") + 1), tempParamNames
-                );
-                break;
-
-        }
-
-        iView.setTextCodeEt(codeToTv);
-
-    }
-
-    @Override
-    public void onFormTextFromParams() {
-
-        String mEtParam1 = iView.getTextEtParam1();
-        String mEtParam2 = iView.getTextEtParam2();
-        String mEtParam3 = iView.getTextEtParam3();
-        String mEtParam4 = iView.getTextEtParam4();
-        String mEtParam5 = iView.getTextEtParam5();
-        String mEtParam6 = iView.getTextEtParam6();
-        String mEtParam7 = iView.getTextEtParam7();
-        String mEtParam8 = iView.getTextEtParam8();
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        //if param1 is not empty, then do: get text from param1 from EditText
-        if (!mEtParam1.trim().equals("")) {
-            stringBuilder.append(mEtParam1.trim() + "\n");
-        }
-        if (!mEtParam2.trim().equals("")) {
-            stringBuilder.append(mEtParam2.trim() + "\n");
-        }
-        if (!mEtParam3.trim().equals("")) {
-            stringBuilder.append(mEtParam3.trim() + "\n");
-        }
-        if (!mEtParam4.trim().equals("")) {
-            stringBuilder.append(mEtParam4.trim() + "\n");
-        }
-        if (!mEtParam5.trim().equals("")) {
-            stringBuilder.append(mEtParam5.trim() + "\n");
-        }
-        if (!mEtParam6.trim().equals("")) {
-            stringBuilder.append(mEtParam6.trim() + "\n");
-        }
-        if (!mEtParam7.trim().equals("")) {
-            stringBuilder.append(mEtParam7.trim() + "\n");
-        }
-        if (!mEtParam8.trim().equals("")) {
-            stringBuilder.append(mEtParam8.trim() + "\n");
-        }
-
-
-        iView.setTextTempParamsText(stringBuilder.toString());
-    }
 }
 
 

@@ -28,6 +28,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:background">@null</item>
         <item name="android:visibility">gone</item>
+        <item name="android:textColor">@color/primary_text</item>
     </style>
 
     <style name="et_style_edittext">
@@ -37,6 +38,7 @@
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:background">@null</item>
+        <item name="android:textColor">@color/primary_text</item>
     </style>
 
     <style name="et_style_textviews">
